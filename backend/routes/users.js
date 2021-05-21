@@ -61,18 +61,7 @@ router.post(
         },
         (err, token) => {
           if (err) throw err;
-          const response = {
-            message: `Created user of id '${user.id}' successfully`,
-            user: {
-              _id: user.id,
-              firstname: user.firstname,
-              lastname: user.lastname,
-              email: user.email,
-              usertype: user.usertype,
-              token,
-            },
-          };
-          return res.status(201).json({ response });
+          res.json({ token });
         }
       );
     } catch (err) {

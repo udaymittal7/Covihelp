@@ -11,15 +11,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useDispatch } from "react-redux";
 import { login } from "../features/authentication/auth";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import { Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: "120px",
+    marginTop: "140px",
     backgroundColor: "white",
   },
   paper: {
@@ -39,38 +34,18 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  formControl: {
-    width: "100%",
-    marginTop: theme.spacing(1),
-  },
 }));
 
 export default function LogIn() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [formState, setFormState] = useState({
-    email: "",
-    password: "",
-    usertype: "",
-  });
+  const [formState, setFormState] = useState({ email: "", password: "" });
   const handleChange = (e) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await dispatch(login(formState));
-    if (res.type === "auth/login/fulfilled") {
-      console.log(res.payload);
-      setFormState({
-        email: "",
-        password: "",
-        usertype: "",
-      });
-    } else {
-      setErrorMessage(res.payload);
-      console.log(res.payload);
-    }
     console.log(res);
   };
 
@@ -84,7 +59,6 @@ export default function LogIn() {
         <Typography component="h1" variant="h5">
           Log In
         </Typography>
-        {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
@@ -95,7 +69,6 @@ export default function LogIn() {
             label="Email Address"
             name="email"
             value={formState.email}
-            onChange={handleChange}
             autoComplete="email"
             autoFocus
           />
@@ -112,26 +85,6 @@ export default function LogIn() {
             onChange={handleChange}
             autoComplete="current-password"
           />
-          <FormControl variant="outlined" className={classes.formControl}>
-            <InputLabel htmlFor="outlined-age-native-simple">
-              Select Account Type
-            </InputLabel>
-            <Select
-              native
-              value={formState.usertype}
-              onChange={handleChange}
-              label="usertype"
-              inputProps={{
-                name: "usertype",
-                id: "outlined-age-native-simple",
-              }}
-            >
-              <option aria-label="None" value="" />
-              <option value={"Admin"}>Admin</option>
-              <option value={"Customer"}>Customer</option>
-              <option value={"Driver"}>Driver</option>
-            </Select>
-          </FormControl>
           {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
