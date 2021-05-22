@@ -32,6 +32,6 @@ app.get("/", (req, res) => {
 // Define Routes
 app.use('/api/auth',require('./routes/auth'))
 app.use('/api/users',require('./routes/users'))
-app.use('/api/cars',require('./routes/cars'))
+app.use('/api/ambulance',require('./routes/ambulance'))
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
