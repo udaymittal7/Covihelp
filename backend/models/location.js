@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const locationSchema = mongoose.Schema({
     name: {type:String},
     address: { type: String, required: true },
-    cars: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ambulance' }]
+    fleet: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ambulance' }]
 });
 
 module.exports = mongoose.model('Location', locationSchema);

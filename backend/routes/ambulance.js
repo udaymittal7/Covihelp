@@ -78,6 +78,9 @@ router.post('/',auth,[
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+    // jwt authenticaiton
+        const decoded = await User.findById(req.user.id)
+          if (!decoded) return res.status(404).json({ msg: "User not found" });
       // restrict feature to staff only
         if (decoded.usertype !== 'driver' && decoded.usertype !== 'admin') {
             return res.status(500).json({ message: `Unable to perform action, you have to be staff member!` });
@@ -115,7 +118,11 @@ router.post('/',auth,[
 //  @route    Delete api/ambulance/:id
 // @desc     delete  ambulance
 // @access   Private
-router.delete('/:id',auth,(req,res)=>{
+router.delete('/:id',auth,async (req,res)=>{
+
+     // jwt authenticaiton
+        const decoded = await User.findById(req.user.id)
+          if (!decoded) return res.status(404).json({ msg: "User not found" });
     // restrict feature to staff only
         if (decoded.usertype !== 'driver' && decoded.usertype !== 'admin') {
             return res.status(500).json({ message: `Unable to perform action, you have to be staff member!` });
@@ -144,11 +151,11 @@ router.delete('/:id',auth,(req,res)=>{
 //  @route    Put api/ambulance/:id
 // @desc     updates  ambulance
 // @access   Private
-router.put('/:id',auth,(req,res)=>{
-    if (err)
-            // return error if JWT is invalid
-            return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+router.put('/:id',auth,async(req,res)=>{
 
+    // jwt authenticaiton
+        const decoded = await User.findById(req.user.id)
+          if (!decoded) return res.status(404).json({ msg: "User not found" });
         // restrict feature to staff only
         if (decoded.usertype !== 'driver' && decoded.usertype !== 'admin') {
             return res.status(500).json({ message: `Unable to perform action, you have to be staff member!` });
